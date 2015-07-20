@@ -1,0 +1,23 @@
+EXEC=		server
+SRC= 		Main.cpp \
+				Server/Server.cpp \
+				Client/ClientMgr.cpp
+OBJ= 		$(SRC:.cpp=.o)
+
+all: $(EXEC)
+
+server: $(OBJ)
+	@echo "Generating ComNetService server..."
+	@$(CC) -o $@ $^ $(LFLAGS)
+
+Main.o: Server/Server.h
+
+Server.o: Client/ClientMgr.h
+
+%.o: %.cpp
+	@$(CC) -o $@ -c $< $(CFLAGS)
+
+.PHONY: clean mrproper
+
+clean:
+	@rm -rf *.o
